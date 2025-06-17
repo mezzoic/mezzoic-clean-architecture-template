@@ -56,10 +56,10 @@ Use this template to bootstrap services, APIs, command-line tools, or any domain
 ## Architecture
 
 ```
-┌─────────────────────────┐      ┌───────────────────┐
+┌─────────────────────────┐       ┌───────────────────┐
 │     Presentation        │◀────▶│   Application     │
-│   (FastAPI Controllers) │      │   (Use Cases)     │
-└─────────────────────────┘      └───────────────────┘
+│   (FastAPI Controllers) │       │   (Use Cases)     │
+└─────────────────────────┘       └───────────────────┘
            ▲                                   ▲
            │                                   │
 ┌─────────────────────────┐      ┌───────────────────┐
@@ -117,18 +117,18 @@ Use this template to bootstrap services, APIs, command-line tools, or any domain
 
 ```
 ├── app
-│   ├── controllers      # FastAPI route handlers
-│   ├── schemas          # Pydantic models
-│   ├── services         # Application use case implementations
-│   ├── domain           # Core business entities
-│   ├── repositories     # Repository interfaces
-│   ├── infrastructure   # DB adapters, external integrations
-│   └── main.py          # Application entrypoint
-├── tests                # Unit and integration tests
-├── alembic              # Database migrations
-├── Dockerfile
-├── docker-compose.yml
-├── pyproject.toml       # Poetry configuration
+│   ├── config             # configuration
+│   ├── infrastructure     # DB adapters, external integrations
+│   |     ├── api          # FastAPI route handlers
+|   |     └── persistence  # DB adapters
+│   ├── use_cases          # Application use case implementations
+│   ├── domain             # Core business entities
+│   └── interfaces         # Interfaces
+│         ├── controllers  # Api interfaces
+|         └── repositories # Repository Interfaces
+├── tests                  # Unit and integration tests
+├── pyproject.toml         # Poetry configuration
+├── main.py                # Application entrypoint
 └── README.md
 ```
 
