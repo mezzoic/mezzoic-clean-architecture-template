@@ -22,7 +22,7 @@ class UserRouter(IUserController):
         try:
             use_case = CreateUser(user_repository=self.user_repository)
             return use_case.execute(name=user.name, email=user.email)
-        except Exception as e:
+        except Exception:
             logger.error(f"Error creating user {user.email}:", exc_info=True)
             raise HTTPException(status_code=500, detail=STD_ERROR)
             
@@ -38,7 +38,7 @@ class UserRouter(IUserController):
             user_id = int(user_id)
             use_case = GetUserById(user_repository= self.user_repository)
             return use_case.execute(user_id)
-        except Exception as e:
+        except Exception:
             logger.error(f"Error retrieving user with ID {user_id}", exc_info=True)
             raise HTTPException(status_code=500, detail=STD_ERROR)
     
