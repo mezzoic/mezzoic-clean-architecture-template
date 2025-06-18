@@ -27,6 +27,7 @@ class Settings(BaseSettings):
 
 # instantiate once
 settings = Settings() # type: ignore
+
 def get_settings() -> Settings:
     """
     Returns the singleton instance of Settings.

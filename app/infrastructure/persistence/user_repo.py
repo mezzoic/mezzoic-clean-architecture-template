@@ -7,12 +7,17 @@ class UserRepository(IUserRepository):
     def __init__(self, engine: Engine):
         self.engine = engine
 
-    def add(self, user: User) -> None:
+    def add(self, user: User) -> User:
         with self.engine.connect() as connection:
-            connection.execute(
-                text("INSERT INTO Person (Id, FullName, Email) VALUES (:id, :name, :email)"),
-                {"id": user.id, "name": user.name, "email": user.email}
+            result = connection.execute(
+                text("""
+                     INSERT INTO Person (FullName, Email) VALUES ( :name, :email)
+                     SELECT SCOPE_IDENTITY() AS Id
+                     """),
+                { "name": user.name, "email": user.email}
             )
+            user.set_identity(result.scalar())
+            return user
 
     def get_by_id(self, user_id: int) -> User:
         with self.engine.connect() as connection:
@@ -21,7 +26,7 @@ class UserRepository(IUserRepository):
                 {"id": user_id}
             ).fetchone()
             if result:
-                return User(id=result[0], name=result[1] or '', email=result[2])
+                return User(id=result[0], name=result[1], email=result[2])
             else:
                 raise ValueError(f"User with id {user_id} not found")
     def get_by_email(self, email: str) -> User:

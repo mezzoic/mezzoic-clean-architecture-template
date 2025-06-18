@@ -140,7 +140,7 @@ Use this template to bootstrap services, APIs, command-line tools, or any domain
 
 - **Locally:**
   ```bash
-  uvicorn app.main:app --reload
+  uvicorn main:app --reload
   ```
 - **Docker:**
   ```bash

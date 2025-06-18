@@ -21,7 +21,7 @@ class UserRouter(IUserController):
         """
         try:
             use_case = CreateUser(user_repository=self.user_repository)
-            return use_case.execute(name=user.name, email=user.email)
+            return use_case.execute(newUser = user)
         except Exception:
             logger.error(f"Error creating user {user.email}:", exc_info=True)
             raise HTTPException(status_code=500, detail=STD_ERROR)
