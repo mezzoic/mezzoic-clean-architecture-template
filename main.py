@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from sqlalchemy import create_engine
 from app.infrastructure.api.user_routes import UserRouter
-# from app.infrastructure.api.static_routes import app as static_routes
+from app.infrastructure.api.static_routes import app as static_routes
 from app.infrastructure.persistence.user_repo import UserRepository
 from app.config.logging_config import setup_logging
 from app.config.settings import get_settings
@@ -28,6 +28,7 @@ user_repository = UserRepository(engine=engine)
 user_router = UserRouter(user_repository=user_repository)
 user_router._register_routes()
 app.include_router(user_router._app, prefix="/api/v1", tags=["users"])
+app.include_router(static_routes, tags=["static"])
 
 # (Optional) serve SPA / static routes under their own prefix:
 # app.mount("/", StaticFiles(directory="path/to/dist", html=True), name="spa")

@@ -29,6 +29,7 @@ class UserRepository(IUserRepository):
                 return User(id=result[0], name=result[1], email=result[2])
             else:
                 raise ValueError(f"User with id {user_id} not found")
+            
     def get_by_email(self, email: str) -> User:
         with self.engine.connect() as connection:
             result = connection.execute(
