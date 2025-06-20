@@ -7,10 +7,16 @@ class CreateUser:
         self.user_repository = user_repository
 
     def execute(self, newUser: User) -> User:
-        # Validate input        
-        if not newUser.id == 0:
-            raise ValueError("Id must be 0 for a new user")
-        # Save the user to the repository
+        """Persist a new ``User`` instance in the repository."""
+
+        # Validate input
+        # ``User`` instances created by the API typically have ``id`` set to
+        # ``None``.  An explicit ``0`` is also allowed for backwards
+        # compatibility.  Any other value means the object already exists.
+        if newUser.id not in (None, 0):
+            raise ValueError("Id must be unset for a new user")
+
+        # Save the user to the repository which will assign the identity
         self.user_repository.add(newUser)
         return newUser
 
